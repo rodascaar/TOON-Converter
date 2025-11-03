@@ -22,9 +22,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        key: ${{ runner.os }}-go-1.21-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ runner.os }}-go-
+          ${{ runner.os }}-go-1.21-
 
     - name: Download dependencies
       run: go mod download
@@ -51,15 +51,15 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/go/pkg/mod
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        key: ${{ runner.os }}-go-1.24.1-${{ hashFiles('**/go.sum') }}
         restore-keys: |
-          ${{ runner.os }}-go-
+          ${{ runner.os }}-go-1.24.1-
 
     - name: Download dependencies
       run: go mod download
 
     - name: Build
-      run: go build -v ./service
+      run: go build -o toon-converter ./service
 
     - name: Test Docker build
       run: docker build -t toon-converter .
