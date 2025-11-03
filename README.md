@@ -33,7 +33,7 @@ docker-compose up -d
 ### Manual Build
 
 ```bash
-# Install Go 1.21+
+# Install Go 1.24.1+
 go mod download
 
 # Build the application
@@ -89,7 +89,10 @@ Convert JSON to TOON format with token savings calculation.
 **Request:**
 ```json
 {
-  "json": "{\"name\": \"John\", \"age\": 30, \"city\": \"New York\"}"
+  "json": "{\"name\": \"John\", \"age\": 30, \"city\": \"New York\"}",
+  "delimiter": ",",
+  "lengthMarker": false,
+  "indent": 2
 }
 ```
 
@@ -143,8 +146,8 @@ user:
 ```
 ```toon
 [2]{name,age}:
-  John,30
-  Jane,25
+    John,30
+    Jane,25
 ```
 
 ## Development
@@ -157,6 +160,9 @@ user:
 ### Project Structure
 ```
 toon-converter/
+├── .github/
+│   └── workflows/
+│       └── ci.yml      # GitHub Actions CI/CD pipeline
 ├── service/           # Go backend
 │   ├── main.go       # HTTP server and API endpoints
 │   └── main_test.go  # Unit tests
@@ -168,12 +174,18 @@ toon-converter/
 ├── docker-compose.yml # Docker Compose configuration
 ├── Dockerfile        # Docker build configuration
 ├── go.mod           # Go module dependencies
+├── go.sum           # Go module checksums
 └── README.md        # This file
 ```
 
 ### Running Tests
 ```bash
 go test ./...
+```
+
+### Running Linting
+```bash
+go vet ./...
 ```
 
 ### Frontend Development
@@ -198,7 +210,7 @@ docker build -t toon-converter .
 
 ### Run Container
 ```bash
-docker run -p 8080:8080 ai-type-script
+docker run -p 8080:8080 toon-converter
 ```
 
 ## Configuration
